@@ -206,8 +206,32 @@ bool LinkedList::insertOrdered(string s)
 */
 Node<string>* LinkedList::searchCF(string s)
 {
-	std::cout << "\tERRO: LinkedList::searchCF - not yet implemented.\n";
-    std::exit(-1);
+    Node<string> *aux = this->getHead()->getNext();
+    while(aux != this->getTail() && aux->getValue() != s)
+    {
+        aux = aux->getNext();
+    }
+    if(aux->getValue() == s)
+    {
+        aux->setCount(aux->getCount() + 1);
+        Node<string> *n = getHead()->getNext();
+        while(aux->getCount() < n->getCount())
+        {
+            n = n->getNext();
+        }
+        aux->getPrevious()->setNext(aux->getNext());
+        aux->getNext()->setPrevious(aux->getPrevious());
+
+        aux->setPrevious(n->getPrevious());
+        aux->setNext(n);
+
+        n->getPrevious()->setNext(aux);
+        n->setPrevious(aux);
+
+        return aux;
+
+    }
+    return nullptr;
 }
 
 /**
