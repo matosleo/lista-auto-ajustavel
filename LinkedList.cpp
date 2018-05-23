@@ -239,6 +239,22 @@ Node<string>* LinkedList::searchCF(string s)
 */
 Node<string>* LinkedList::searchMF(string s)
 {
-	std::cout << "\tERRO: LinkedList::searchMF - not yet implemented.\n";
-    std::exit(-1);
+    Node<string> *aux = getHead()->getNext();
+    while(aux != getTail() && aux->getValue() != s)
+    {
+        aux = aux->getNext();
+    }
+    if(aux->getValue() == s)
+    {
+        aux->getPrevious()->setNext(aux->getNext());
+        aux->getNext()->setPrevious(aux->getPrevious());
+
+        aux->setPrevious(this->getHead());
+        aux->setNext(this->getHead()->getNext());
+
+        this->getHead()->getNext()->setPrevious(aux);
+        this->getHead()->setNext(aux);
+        return aux;
+    }
+    return nullptr;
 }
